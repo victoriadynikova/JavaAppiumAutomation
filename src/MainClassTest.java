@@ -5,8 +5,9 @@ import org.junit.Test;
 public class MainClassTest {
 
     @Test
-    public void getClassNumber(){
+    public void testGetClassString(){
         MainClass mainClass = new MainClass();
-        Assert.assertTrue("class_number less than 45",mainClass.getClassNumber() > 45);
+        Assert.assertTrue("We didn't find any hello", mainClass.getClassString().contains("hello")
+                                                                || mainClass.getClassString().contains("Hello"));
     }
 }
