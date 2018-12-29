@@ -1,11 +1,12 @@
+import com.sun.source.tree.AssertTree;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class MainClassTest {
 
     @Test
-    public void testGetLocalNumber(){
+    public void getClassNumber(){
         MainClass mainClass = new MainClass();
-        Assert.assertTrue("local number isn't 14",mainClass.getLocalNumber() == 14);
+        Assert.assertTrue("class_number less than 45",mainClass.getClassNumber() > 45);
     }
 }
