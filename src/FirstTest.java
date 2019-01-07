@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirstTest {
 
@@ -108,6 +110,34 @@ public class FirstTest {
                 "Java (programming language)",
                 article_title
         );
+
+    }
+
+    @Test
+    public void testCheckAllResults(){
+        waitForElementAndClick(By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementByXpathAndSendKeys(By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "cannot find search input",
+                5);
+        List<WebElement> result_list = waitForElementsPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']"),
+                "Result list wasn't found",
+                5
+        );
+        List <String> titles_of_results = new ArrayList<>();
+        for (WebElement element:result_list){
+            titles_of_results.add(element.findElement(By.id("org.wikipedia:id/page_list_item_title")).getText());
+        }
+
+        for (int i = 0; i < titles_of_results.size(); i++){
+            Assert.assertTrue("There is no Java at " + i + " line",
+                    titles_of_results.get(i).contains("Java")||titles_of_results.get(i).contains("java"));
+        }
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds ){
@@ -143,5 +173,11 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by,error_message,timeoutInSeconds);
         element.clear();
         return element;
+    }
+
+    private List<WebElement> waitForElementsPresent(By by, String error_message, long timeoutInSeconds ){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
 }
