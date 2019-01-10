@@ -37,6 +37,30 @@ public class FirstTest {
         driver.quit();
     }
 
+    /*
+    Lesson 2 Ex 2
+     */
+
+    @Test
+    public void testCheckTextInSearchField(){
+        //click on 'Search Wiki' field
+        waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5);
+
+        //get the input field element
+        WebElement element = waitForElementPresent(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find Search Line",
+                5);
+
+        //check the text in the input field
+        Assert.assertEquals("Cannot find 'Search...' text in Search field",
+                "Search…",
+                element.getText());
+
+    }
+
     @Test
     public void firstTest(){
 
@@ -180,4 +204,5 @@ public class FirstTest {
         wait.withMessage(error_message + "\n");
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
+
 }
