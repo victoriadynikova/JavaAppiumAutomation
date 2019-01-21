@@ -488,57 +488,64 @@ public class FirstTest {
 
     @Test
     public void testChangeScreenOrientationOnSearchResults(){
-        waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find 'Search Wikipedia' input",
-                5);
-        String search_line = "Java";
-        waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search…')]"),
-                search_line,
-                "cannot find search input",
-                5);
-        waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-                "Cannot find ' Object-oriented programming language' topic by " + search_line ,
-                5);
+        try {
 
-        String title_before_rotation = waitForElementPresentAndGetAttribute(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "text",
-                 "Cannot find title of article",
-                15
-        );
+            waitForElementAndClick(
+                    By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                    "Cannot find 'Search Wikipedia' input",
+                    5);
+            String search_line = "Java";
+            waitForElementAndSendKeys(
+                    By.xpath("//*[contains(@text,'Search…')]"),
+                    search_line,
+                    "cannot find search input",
+                    5);
+            waitForElementAndClick(
+                    By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                    "Cannot find ' Object-oriented programming language' topic by " + search_line,
+                    5);
 
-        driver.rotate(ScreenOrientation.LANDSCAPE);
+            String title_before_rotation = waitForElementPresentAndGetAttribute(
+                    By.id("org.wikipedia:id/view_page_title_text"),
+                    "text",
+                    "Cannot find title of article",
+                    15
+            );
 
-        String title_after_rotation = waitForElementPresentAndGetAttribute(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "text",
-                "Cannot find title of article",
-                15
-        );
+            driver.rotate(ScreenOrientation.LANDSCAPE);
 
-        Assert.assertEquals(
-                "Article title have been changed after screen  rotation ",
-                title_before_rotation,
-                title_after_rotation
-        );
+            String title_after_rotation = waitForElementPresentAndGetAttribute(
+                    By.id("org.wikipedia:id/view_page_title_text"),
+                    "text",
+                    "Cannot find title of article",
+                    15
+            );
 
-        driver.rotate(ScreenOrientation.PORTRAIT);
+            Assert.assertEquals(
+                    "Article title have been changed after screen  rotation ",
+                    title_before_rotation,
+                    title_after_rotation
+            );
 
-        String title_after_second_rotation = waitForElementPresentAndGetAttribute(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "text",
-                "Cannot find title of article",
-                15
-        );
+            driver.rotate(ScreenOrientation.PORTRAIT);
 
-        Assert.assertEquals(
-                "Article title have been changed after screen  rotation ",
-                title_before_rotation,
-                title_after_second_rotation
-        );
+            String title_after_second_rotation = waitForElementPresentAndGetAttribute(
+                    By.id("org.wikipedia:id/view_page_title_text"),
+                    "text",
+                    "Cannot find title of article",
+                    15
+            );
+
+            Assert.assertEquals(
+                    "Article title have been changed after screen  rotation ",
+                    title_before_rotation,
+                    title_after_second_rotation
+            );
+        }
+
+        finally {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+        }
     }
 
     @Test
