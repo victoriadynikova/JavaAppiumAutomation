@@ -10,12 +10,15 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public class FirstTest {
 
@@ -570,6 +573,23 @@ public class FirstTest {
                 5);
     }
 
+    @Test
+    public void testTitlePresent() throws Exception {
+        waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5);
+        waitForElementAndSendKeys(By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "cannot find search input",
+                5);
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot click on article",
+                5);
+        assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"), "Title not found");
+    }
+
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds ){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -627,6 +647,13 @@ public class FirstTest {
              String default_message = "An element '" + by.toString() + "' supposed to be not present";
              throw new AssertionError(default_message + " " + error_message);
          }
+    }
+
+    private void assertElementPresent(By by, String error_message){
+        if (driver.findElement(by).isDisplayed())
+            return;
+        else
+            throw new AssertionError(error_message);
     }
 
     protected void swipeUp (int timeOfSwipe){
