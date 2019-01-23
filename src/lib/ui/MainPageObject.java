@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -80,10 +81,10 @@ public class MainPageObject {
     }
 
     public void assertElementPresent(By by, String error_message) {
-        if (driver.findElement(by).isDisplayed())
-            return;
-        else
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements == 0) {
             throw new AssertionError(error_message);
+        }
     }
 
     public void swipeUp(int timeOfSwipe) {

@@ -456,7 +456,6 @@ public class FirstTest extends CoreTestCase {
 
     @Test
     public void testChangeScreenOrientationOnSearchResults() {
-        try {
 
             mainPageObject.waitForElementAndClick(
                     By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -509,9 +508,6 @@ public class FirstTest extends CoreTestCase {
                     title_before_rotation,
                     title_after_second_rotation
             );
-        } finally {
-            driver.rotate(ScreenOrientation.PORTRAIT);
-        }
     }
 
     @Test
@@ -537,7 +533,7 @@ public class FirstTest extends CoreTestCase {
     }
 
     @Test
-    public void testTitlePresent() throws Exception {
+    public void testTitlePresent() {
         mainPageObject.waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find 'Search Wikipedia' input",
                 5);
@@ -549,7 +545,8 @@ public class FirstTest extends CoreTestCase {
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
                 "Cannot click on article",
                 5);
-        mainPageObject.assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"), "Title not found");
+        mainPageObject.assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"), "Article Title not found");
+
     }
 
 }
