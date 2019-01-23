@@ -3,8 +3,6 @@ package lib;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
@@ -26,6 +24,7 @@ public class CoreTestCase extends TestCase {
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "/Users/victoria/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
+        capabilities.setCapability("orientation","PORTRAIT");
 
         driver = new AndroidDriver(new URL(AppiumURL), capabilities);
     }
