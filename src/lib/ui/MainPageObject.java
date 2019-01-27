@@ -4,11 +4,9 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import sun.applet.Main;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class MainPageObject {
 
     protected AppiumDriver driver;
 
-    public MainPageObject(AppiumDriver driver){
+    public MainPageObject(AppiumDriver driver) {
         this.driver = driver;
     }
 

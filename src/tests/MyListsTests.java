@@ -27,11 +27,58 @@ public class MyListsTests extends CoreTestCase {
         articlePageObject.closeArticle();
 
         NavigationUI navigationUI = new NavigationUI(driver);
-        navigationUI.clickMyLIsts();
+        navigationUI.clickMyLists();
 
         MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
         myListsPageObject.openFolderByName(name_of_folder);
         myListsPageObject.swipeByArticleToDelete(article_title);
 
     }
+
+
+
+    @Test
+    public void testSaveTwoArticlesToMyList() {
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+
+        articlePageObject.waitForTitleElement();
+        String article_title = articlePageObject.getArticleTitle();
+        String name_of_folder = "Java and Appium Articles";
+        articlePageObject.addArticleToMyList(name_of_folder);
+        articlePageObject.closeArticle();
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Appium");
+        searchPageObject.clickByArticleWithSubstring("Appium");
+        articlePageObject.addArticleToExistingList(name_of_folder);
+        articlePageObject.closeArticle();
+
+
+        NavigationUI navigationUI = new NavigationUI(driver);
+        navigationUI.clickMyLists();
+
+        MyListsPageObject myListsPageObject = new MyListsPageObject(driver);
+        myListsPageObject.openFolderByName(name_of_folder);
+        myListsPageObject.swipeByArticleToDelete(article_title);
+
+        String remaining_article_name_in_list = myListsPageObject.getNameOfTheLastArticleInTheList();
+        searchPageObject.clickByArticleWithSubstring(remaining_article_name_in_list);
+
+        String actual_article_name = articlePageObject.getArticleTitle();
+
+        assertEquals(
+                "Article Title in the folder and Article Title on the page are different",
+                remaining_article_name_in_list,
+                actual_article_name
+        );
+
+    }
+
 }

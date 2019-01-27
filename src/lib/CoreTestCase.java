@@ -13,7 +13,7 @@ public class CoreTestCase extends TestCase {
     private static String AppiumURL = "http://127.0.0.1:4723/wd/hub";
 
     @Override
-    protected void setUp() throws Exception{
+    protected void setUp() throws Exception {
 
         super.setUp();
 
@@ -26,7 +26,7 @@ public class CoreTestCase extends TestCase {
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "/Users/victoria/Desktop/JavaAppiumAutomation/apks/org.wikipedia.apk");
 
-        capabilities.setCapability("orientation","PORTRAIT");
+        capabilities.setCapability("orientation", "PORTRAIT");
 
         //this.rotateScreenPortrait();
 
@@ -34,21 +34,21 @@ public class CoreTestCase extends TestCase {
     }
 
     @Override
-    protected  void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         driver.quit();
 
         super.tearDown();
     }
 
-    protected void rotateScreenPortrait(){
+    protected void rotateScreenPortrait() {
         driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
-    protected void rotateScreenLandscape(){
+    protected void rotateScreenLandscape() {
         driver.rotate(ScreenOrientation.LANDSCAPE);
     }
 
-    protected void backgroundApp(int seconds){
+    protected void backgroundApp(int seconds) {
         driver.runAppInBackground(seconds);
     }
 }

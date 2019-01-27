@@ -4,6 +4,8 @@ import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
 
+import java.util.List;
+
 public class SearchTests extends CoreTestCase {
 
     @Test
@@ -16,6 +18,37 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.waitForSearchResult("Object-oriented programming language");
 
     }
+
+    @Test
+    public void testCheckTextInSearchField() {
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+
+        searchPageObject.initSearchInput();
+        String textFromSearchLine = searchPageObject.getTextFromSearchLine();
+
+        assertEquals(
+                "Cannot find 'Search...' text in Search field",
+                "Search…",
+                textFromSearchLine);
+
+    }
+
+    @Test
+    public void testCheckAllResults() {
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        List<String> titles_of_results = searchPageObject.getListOfTitlesOfResults();
+
+        for (int i = 0; i < titles_of_results.size(); i++) {
+            assertTrue("There is no Java at " + i + " line",
+                    titles_of_results.get(i).contains("Java") || titles_of_results.get(i).contains("java"));
+        }
+    }
+
 
     @Test
     public void testCancelSearch() {
