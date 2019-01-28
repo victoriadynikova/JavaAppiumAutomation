@@ -27,6 +27,8 @@ public class ArticlePageObject extends MainPageObject {
         return OPTIONS_ADD_TO_EXISTING_LIST_BUTTON.replace("{SUBSTRING}", substring);
     }
 
+    /* TEMPLATES METHODS */
+
     public WebElement waitForTitleElement() {
 
         return this.waitForElementPresent(By.id(TITLE), "Cannot find Atricle Title on page", 15);

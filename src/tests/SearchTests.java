@@ -90,4 +90,18 @@ public class SearchTests extends CoreTestCase {
 
     }
 
+    @Test
+    public void testArticleAndDescription(){
+
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("red");
+
+        searchPageObject.waitForElementByTitleAndDescription("Red Hot Chili Peppers","American rock band");
+        searchPageObject.waitForElementByTitleAndDescription("Reddit","Online news aggregator");
+        searchPageObject.waitForElementByTitleAndDescription("Red hair","Hair color");
+
+    }
+
 }

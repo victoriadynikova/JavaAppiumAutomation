@@ -16,8 +16,11 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-            SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
-
+            SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
+            SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']" +
+                    "/*[./*[@resource-id='org.wikipedia:id/page_list_item_title'" +
+                    " and @text='{TITLE}'] and ./*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{DESCRIPTION}']]";
+            //SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL = //By.xpath("//*[android.widget.TextView[@text='{TITLE}'] and android.widget.TextView[@text='{DESCRIPTION}']]"),
 
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
@@ -27,6 +30,10 @@ public class SearchPageObject extends MainPageObject {
 
     private String getResultSearchElement(String substring) {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private String getResultSearchElementByTitleAndDescription(String title, String description){
+        return SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL.replace("{TITLE}",title).replace("{DESCRIPTION}",description);
     }
 
     /* TEMPLATES METHODS */
@@ -109,4 +116,12 @@ public class SearchPageObject extends MainPageObject {
                 "We supposed not to find any results");
     }
 
+    public void waitForElementByTitleAndDescription(String title, String description){
+        waitForElementPresent(
+                By.xpath(getResultSearchElementByTitleAndDescription(title,description)),
+                "Article with title " + title + " and description " + description + " wasn't found",
+                5
+        );
+
+    }
 }
