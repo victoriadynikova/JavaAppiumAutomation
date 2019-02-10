@@ -10,6 +10,7 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase {
@@ -28,8 +29,8 @@ public class MyListsTests extends CoreTestCase {
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
 
         articlePageObject.waitForTitleElement();
-        String article_title = articlePageObject.getArticleTitle();
 
+        String article_title = articlePageObject.getArticleTitle();
 
         if (Platform.getInstance().isAndroid()){
             articlePageObject.addArticleToMyList(name_of_folder);
@@ -67,36 +68,69 @@ public class MyListsTests extends CoreTestCase {
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
 
         articlePageObject.waitForTitleElement();
-        String article_title = articlePageObject.getArticleTitle();
-        String name_of_folder = "Java and Appium Articles";
-        articlePageObject.addArticleToMyList(name_of_folder);
+        String first_article_title = articlePageObject.getArticleTitle();
+
+        if (Platform.getInstance().isAndroid()){
+            articlePageObject.addArticleToMyList(name_of_folder);
+        } else{
+            articlePageObject.addArticleToMySaved();
+            articlePageObject.closeArticle();
+        }
         articlePageObject.closeArticle();
 
         searchPageObject.initSearchInput();
-        searchPageObject.typeSearchLine("Appium");
-        searchPageObject.clickByArticleWithSubstring("Appium");
-        articlePageObject.addArticleToExistingList(name_of_folder);
-        articlePageObject.closeArticle();
+        if (Platform.getInstance().isIOS()) {
+            searchPageObject.clearSearchLine();
+        }
+        searchPageObject.typeSearchLine("Python");
+        String second_article_title = "Python (programming language)";
+        searchPageObject.clickByArticleWithSubstring(second_article_title);
 
+        if (Platform.getInstance().isAndroid()){
+            articlePageObject.addArticleToExistingList(name_of_folder);
+        } else{
+            articlePageObject.addArticleToMySaved();
+        }
+        articlePageObject.closeArticle();
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickMyLists();
 
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
-        myListsPageObject.openFolderByName(name_of_folder);
-        myListsPageObject.swipeByArticleToDelete(article_title);
 
+        if (Platform.getInstance().isAndroid()){
+            myListsPageObject.openFolderByName(name_of_folder);
+        }
+
+        myListsPageObject.swipeByArticleToDelete(first_article_title);
+
+        for (String remainingArticle: myListsPageObject.getListOfTitlesOfRemainingArticles()){
+            Assert.assertFalse(first_article_title + " article still present in the list ",
+                    remainingArticle.contains(first_article_title));
+            Assert.assertTrue("Remaining article doesn't contain second article title " + second_article_title,
+                    remainingArticle.contains(second_article_title));
+        }
+
+        /*
         String remaining_article_name_in_list = myListsPageObject.getNameOfTheLastArticleInTheList();
+        System.out.println("remaining article " + remaining_article_name_in_list);
         searchPageObject.clickByArticleWithSubstring(remaining_article_name_in_list);
 
-        String actual_article_name = articlePageObject.getArticleTitle();
+        Assert.assertFalse(first_article_title + " article still present in the list ",
+                remaining_article_name_in_list.contains(first_article_title));
+        Assert.assertTrue("Remaining article doesn't contain second article title " + second_article_title,
+                remaining_article_name_in_list.contains(second_article_title));
 
-        assertEquals(
-                "Article Title in the folder and Article Title on the page are different",
-                remaining_article_name_in_list,
-                actual_article_name
-        );
+        if (Platform.getInstance().isAndroid()) {
+            String actual_article_name = articlePageObject.getArticleTitle();
+            assertEquals(
+                    "Article Title in the folder and Article Title on the page are different",
+                    remaining_article_name_in_list,
+                    actual_article_name
+            );
+        }
+        */
 
     }
-
 }
+

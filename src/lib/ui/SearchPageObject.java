@@ -14,6 +14,7 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_LINE_ELEMENT,
             SEARCH_INPUT,
             SEARCH_CANCEL_BUTTON,
+            SEARCH_SMALL_CLEAR_BUTTON, //ios special for cleaning previous search request
             SEARCH_RESULT_BY_SUBSTRING_TPL,
             SEARCH_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT,
@@ -120,5 +121,9 @@ abstract public class SearchPageObject extends MainPageObject {
                 5
         );
 
+    }
+
+    public void clearSearchLine(){
+        this.waitForElementAndClick(SEARCH_SMALL_CLEAR_BUTTON,"Cannot clean Search Line", 5);
     }
 }

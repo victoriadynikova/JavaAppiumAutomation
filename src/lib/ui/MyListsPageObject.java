@@ -1,10 +1,12 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import lib.Platform;
+
+import java.util.ArrayList;
+import java.util.List;
 
 abstract public class MyListsPageObject extends MainPageObject {
 
@@ -28,6 +30,7 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     public void openFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXpathByName(name_of_folder);
+        this.waitForElementPresent(folder_name_xpath, "Cannot find folder by name " + name_of_folder, 10);
         this.waitForElementAndClick(
                 folder_name_xpath,
                 "Cannot find folder by name " + name_of_folder,
@@ -77,7 +80,32 @@ abstract public class MyListsPageObject extends MainPageObject {
                 5);
     }
 
+    public List<WebElement> getAllArticlesFromTheList() {
+        return waitForElementsPresent(
+                ARTICLE_TITLE_IN_LIST,
+                "there is no article left",
+                5);
+    }
+
+
+
     public String getNameOfTheLastArticleInTheList() {
-        return getLastArticleInTheList().getText();
+        if (Platform.getInstance().isAndroid()) {
+            return getLastArticleInTheList().getText();
+        }else {
+            return getLastArticleInTheList().getAttribute("name");
+        }
+    }
+
+    public List <String> getListOfTitlesOfRemainingArticles() {
+
+        List<String> remainingArticleTitles = new ArrayList<>();
+
+        for (WebElement element : getAllArticlesFromTheList()) {
+            remainingArticleTitles.add(element.getText());
+        }
+
+        System.out.println("we have " + remainingArticleTitles.size() + " articles");
+        return remainingArticleTitles;
     }
 }
