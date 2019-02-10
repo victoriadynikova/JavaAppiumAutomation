@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import javafx.scene.control.Skin;
 import org.openqa.selenium.By;
 
 public class WelcomePageObject extends MainPageObject{
@@ -14,7 +15,8 @@ public class WelcomePageObject extends MainPageObject{
         STEP_ADD_OR_EDIT_PREFFERED_LANG_TEXT = "id:Add or edit preferred languages",
         STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_TEXT = "id:Learn more about data collected",
         NEXT_LINK = "id:Next",
-        GET_STARTED_BUTTON = "id:Get started";
+        GET_STARTED_BUTTON = "id:Get started",
+        SKIP = "id:Skip";
 
 
     public void waitForLearnMoreLink(){
@@ -43,6 +45,10 @@ public class WelcomePageObject extends MainPageObject{
     public void clickGetStartedButton(){
 
         this.waitForElementAndClick(GET_STARTED_BUTTON, "Cannot find and click 'Get started' button", 10);
+    }
+
+    public void clickSkip(){
+        this.waitForElementAndClick(SKIP, "Cannot find and click Skip button", 5);
     }
 
 
