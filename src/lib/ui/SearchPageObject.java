@@ -65,7 +65,7 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void waitForSearchResult(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementPresent(search_result_xpath, "Cannot find Search Result with substring " + substring);
+        this.waitForElementPresent(search_result_xpath, "Cannot find Search Result with substring " + substring).getAttribute("name");
     }
 
     public void clickByArticleWithSubstring(String substring) {

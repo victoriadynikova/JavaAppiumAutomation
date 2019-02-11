@@ -103,6 +103,9 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.waitForElementByTitleAndDescription("Reddit","Online news aggregator");
         searchPageObject.waitForElementByTitleAndDescription("Red hair","Hair color");
 
+
     }
 
+
 }
+
