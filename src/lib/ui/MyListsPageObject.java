@@ -105,7 +105,6 @@ abstract public class MyListsPageObject extends MainPageObject {
             remainingArticleTitles.add(element.getText());
         }
 
-        System.out.println("we have " + remainingArticleTitles.size() + " articles");
         return remainingArticleTitles;
     }
 }

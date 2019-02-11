@@ -13,6 +13,9 @@ import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyListsTests extends CoreTestCase {
 
     private static final String name_of_folder = "Learning programming";
@@ -104,12 +107,23 @@ public class MyListsTests extends CoreTestCase {
 
         myListsPageObject.swipeByArticleToDelete(first_article_title);
 
-        for (String remainingArticle: myListsPageObject.getListOfTitlesOfRemainingArticles()){
+
+        List<String> remainingArticles =  myListsPageObject.getListOfTitlesOfRemainingArticles();
+
+        Assert.assertTrue("We still have 2 articles in the list", remainingArticles.size() == 1);
+
+        for (String articleTitle: remainingArticles){
             Assert.assertFalse(first_article_title + " article still present in the list ",
-                    remainingArticle.contains(first_article_title));
+                    articleTitle.contains(first_article_title));
             Assert.assertTrue("Remaining article doesn't contain second article title " + second_article_title,
-                    remainingArticle.contains(second_article_title));
+                    articleTitle.contains(second_article_title));
         }
+
+        /* Assert.assertTrue("Remaining article doesn't contain second article title " + second_article_title,
+                remainingArticles.contains(second_article_title));
+        Assert.assertFalse(first_article_title + " article still present in the list ",
+                remainingArticles.contains(first_article_title));
+                */
 
         /*
         String remaining_article_name_in_list = myListsPageObject.getNameOfTheLastArticleInTheList();
@@ -132,5 +146,6 @@ public class MyListsTests extends CoreTestCase {
         */
 
     }
+
 }
 
