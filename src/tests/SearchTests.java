@@ -15,6 +15,14 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
+        try {
+            Thread.sleep(10000);
+            System.out.println(
+                    driver.getCurrentUrl()
+            );
+        } catch (Exception e) {
+        }
+
         searchPageObject.typeSearchLine("Java");
         searchPageObject.waitForSearchResult("bject-oriented programming language");
 
@@ -92,16 +100,16 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
-    public void testArticleAndDescription(){
+    public void testArticleAndDescription() {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("red");
 
-        searchPageObject.waitForElementByTitleAndDescription("Red Hot Chili Peppers","American rock band");
-        searchPageObject.waitForElementByTitleAndDescription("Reddit","Online news aggregator");
-        searchPageObject.waitForElementByTitleAndDescription("Red hair","Hair color");
+        searchPageObject.waitForElementByTitleAndDescription("Red Hot Chili Peppers", "American rock band");
+        searchPageObject.waitForElementByTitleAndDescription("Reddit", "Online news aggregator");
+        searchPageObject.waitForElementByTitleAndDescription("Red hair", "Hair color");
 
 
     }

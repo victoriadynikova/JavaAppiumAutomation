@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -10,7 +9,7 @@ import java.util.List;
 
 abstract public class SearchPageObject extends MainPageObject {
 
-      protected static String
+    protected static String
             SEARCH_INIT_ELEMENT,
             SEARCH_LINE_ELEMENT,
             SEARCH_INPUT,
@@ -31,8 +30,8 @@ abstract public class SearchPageObject extends MainPageObject {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
 
-    private String getResultSearchElementByTitleAndDescription(String title, String description){
-        return SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL.replace("{TITLE}",title).replace("{DESCRIPTION}",description);
+    private String getResultSearchElementByTitleAndDescription(String title, String description) {
+        return SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL.replace("{TITLE}", title).replace("{DESCRIPTION}", description);
     }
 
     /* TEMPLATES METHODS */
@@ -115,16 +114,16 @@ abstract public class SearchPageObject extends MainPageObject {
                 "We supposed not to find any results");
     }
 
-    public void waitForElementByTitleAndDescription(String title, String description){
+    public void waitForElementByTitleAndDescription(String title, String description) {
         waitForElementPresent(
-                getResultSearchElementByTitleAndDescription(title,description),
+                getResultSearchElementByTitleAndDescription(title, description),
                 "Article with title " + title + " and description " + description + " wasn't found",
                 5
         );
 
     }
 
-    public void clearSearchLine(){
-        this.waitForElementAndClick(SEARCH_SMALL_CLEAR_BUTTON,"Cannot clean Search Line", 5);
+    public void clearSearchLine() {
+        this.waitForElementAndClick(SEARCH_SMALL_CLEAR_BUTTON, "Cannot clean Search Line", 5);
     }
 }

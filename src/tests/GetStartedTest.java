@@ -8,10 +8,10 @@ import org.junit.Test;
 public class GetStartedTest extends CoreTestCase {
 
     @Test
-    public void testPassThroughWelcome(){
+    public void testPassThroughWelcome() {
 
-        //skip test if Android
-        if (Platform.getInstance().isAndroid()){
+        //skip test if Android and mobile_web
+        if ((Platform.getInstance().isAndroid()) || (Platform.getInstance().isMw())) {
             return;
         }
 

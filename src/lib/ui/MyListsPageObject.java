@@ -1,9 +1,7 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.WebElement;
-
 import lib.Platform;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.ArrayList;
@@ -14,7 +12,8 @@ abstract public class MyListsPageObject extends MainPageObject {
     protected static String
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
-            ARTICLE_TITLE_IN_LIST;
+            ARTICLE_TITLE_IN_LIST,
+            REMOVE_FROM_SAVED_BUTTON;
 
 
     public static String getFolderXpathByName(String name_of_folder) {
@@ -23,6 +22,10 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     public static String getSavedArticleXpathByTitle(String title) {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", title);
+    }
+
+    public static String getRemoveButtonByTitle(String title) {
+        return REMOVE_FROM_SAVED_BUTTON.replace("{TITLE}", title);
     }
 
     public MyListsPageObject(RemoteWebDriver driver) {
@@ -60,18 +63,43 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
 
     public void swipeByArticleToDelete(String article_title) {
+
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByTitle(article_title);
-        this.swipeElementToLeft(
-                article_xpath,
-                "Cannot find saved article"
-        );
 
-        if (Platform.getInstance().isIOS()){
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
+            this.swipeElementToLeft(
+                    article_xpath,
+                    "Cannot find saved article"
+            );
+        } else {
+            String remove_locator = getRemoveButtonByTitle(article_title);
+
+
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article from saved",
+                    10
+            );
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+            }
+
+
+        }
+
+        if (Platform.getInstance().isIOS()) {
             this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article ");
         }
 
+        if (Platform.getInstance().isMw()) {
+            driver.navigate().refresh();
+        }
+
         this.waitForArticleToDisappearByTitle(article_title);
+
     }
 
     public WebElement getLastArticleInTheList() {
@@ -89,16 +117,15 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
 
 
-
     public String getNameOfTheLastArticleInTheList() {
         if (Platform.getInstance().isAndroid()) {
             return getLastArticleInTheList().getText();
-        }else {
+        } else {
             return getLastArticleInTheList().getAttribute("name");
         }
     }
 
-    public List <String> getListOfTitlesOfRemainingArticles() {
+    public List<String> getListOfTitlesOfRemainingArticles() {
 
         List<String> remainingArticleTitles = new ArrayList<>();
 

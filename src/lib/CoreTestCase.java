@@ -27,7 +27,7 @@ public class CoreTestCase extends TestCase {
 
     protected void rotateScreenPortrait() {
 
-        if (driver instanceof AppiumDriver){
+        if (driver instanceof AppiumDriver) {
             AppiumDriver driver = (AppiumDriver) this.driver;
             driver.rotate(ScreenOrientation.PORTRAIT);
         } else {
@@ -37,34 +37,34 @@ public class CoreTestCase extends TestCase {
 
     protected void rotateScreenLandscape() {
 
-        if (driver instanceof AppiumDriver){
+        if (driver instanceof AppiumDriver) {
             AppiumDriver driver = (AppiumDriver) this.driver;
             driver.rotate(ScreenOrientation.LANDSCAPE);
-        }else {
+        } else {
             System.out.println("Method rotateScreenLandscape does nothing for platform: " + Platform.getInstance().getPlatformVar());
         }
 
     }
 
-    protected void backgroundApp(int seconds){
+    protected void backgroundApp(int seconds) {
         if (driver instanceof AppiumDriver) {
             AppiumDriver driver = (AppiumDriver) this.driver;
             driver.runAppInBackground(seconds);
-        }else {
+        } else {
             System.out.println("Method backgroundApp does nothing for platform: " + Platform.getInstance().getPlatformVar());
         }
     }
 
-    protected void openWikiWebPageForMobileWeb(){
-        if (Platform.getInstance().isMw()){
+    protected void openWikiWebPageForMobileWeb() {
+        if (Platform.getInstance().isMw()) {
             driver.get("https://en.m.wikipedia.org");
         } else {
             System.out.println("Method openWikiWebPageForMobileWeb does nothing for platform: " + Platform.getInstance().getPlatformVar());
         }
     }
 
-    private void skipWelcomePageForIOSApp(){
-        if (Platform.getInstance().isIOS()){
+    private void skipWelcomePageForIOSApp() {
+        if (Platform.getInstance().isIOS()) {
             AppiumDriver driver = (AppiumDriver) this.driver;
             WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
             welcomePageObject.clickSkip();
